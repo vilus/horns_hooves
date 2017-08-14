@@ -1,0 +1,1 @@
+project for studying Django
