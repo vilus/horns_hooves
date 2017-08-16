@@ -1,31 +1,17 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-        "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>{{ category.name }}</title>
-</head>
-
-<body>
-    <h1>Список товаров</h1>
-    <h2>Категории:</h2>
-    <ul>
-        {% for cat in cats %}
-          <li><a href="/goods/{{ cat.id }}/">{{ cat.name }}</a> </li>
-        {% endfor %}
-    </ul>
-    <h2>Товары:</h2>
+{% extends "page_base.html" %}
+{% block title %}{{ category.name }}{% endblock %}
+{% block main %}
+    <h2>{{ category.name }}</h2>
     <table>
         <tr>
             <th>Название</th>
             <th>Есть в наличии</th>
         </tr>
         {% for good in goods %}
-            <tr>
-                <td><a href="/goods/good/{{ good.id }}/">{{ good.name }}</a></td>
-                <td>{% if good.in_stock %}+{% endif %}</td>
-            </tr>
+        <tr>
+            <td><a href="/goods/good/{{ good.id }}/">{{ good.name }}</a></td>
+            <td class="centered">{% if good.in_stock %}+{% endif %}</td>
+        </tr>
         {% endfor %}
     </table>
-</body>
-</html>
+{% endblock %}

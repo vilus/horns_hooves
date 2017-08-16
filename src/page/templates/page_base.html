@@ -1,0 +1,31 @@
+{% load staticfiles %}
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link type="text/css" href="{% static "main.css" %}" rel="stylesheet">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+
+<body>
+    <div id="header">
+        <h1>Список товаров</h1>
+    </div>
+    <div id="leftmenu">
+        <h2>Категории:</h2>
+        <ul>
+            {% for cat in cats %}
+                <li><a href="/goods/{{ cat.id }}/">{{ cat.name }}</a> </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div id="main">
+        {% block main %}
+        {% endblock %}
+    </div>
+    <div id="footer">
+        <p>Все права принадлежат народу</p>
+    </div>
+</body>
+</html>
