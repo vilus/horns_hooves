@@ -1,0 +1,15 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <title>{{ good.name }}</title>
+</head>
+<body>
+    <h1>{{ good.name }}</h1>
+    <p>Категория: {{ good.category.name }}</p>
+    <p>{{ good.description|linebreaksbr }}</p>
+    <p>{% if not good.in_stock %}Нет в наличии!{% endif %}</p>
+    <p><a href="/goods/{{ good.category.id }}/">Назад</a> </p>
+</body>
+</html>

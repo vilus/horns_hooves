@@ -2,12 +2,20 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import Http404
+from page.models import Category, Good
 
 
 def index(req, category_id):
-    return HttpResponse('there is index or content of %s category' % category_id)
+    cats = Category.objects.all().order_by('name')
+    cat = Category.objects.get(pk=category_id) if category_id else Category.objects.first()
+    goods = Good.objects.filter(category=cat).order_by('name')
+    return render(req, 'page_index.html', {'category': cat, 'cats': cats, 'goods': goods})
 
 
 def good(req, good_id):
-    return HttpResponse('there is %s good' % good_id)
+    try:
+        good = Good.objects.get(pk=good_id)
+    except Good.DoesNotExist:
+        raise Http404
+    return render(req, 'page_good.html', {'good': good})
