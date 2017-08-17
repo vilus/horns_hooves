@@ -12,7 +12,10 @@ def index(req, category_id):
     cat = Category.objects.get(pk=category_id) if category_id else Category.objects.first()
     goods = Good.objects.filter(category=cat).order_by('name')
     paginator = Paginator(goods, 4)
-    goods = paginator.page(req.GET.get('page', 1))
+    try:
+        goods = paginator.page(req.GET.get('page', 1))
+    except InvalidPage:
+        goods = paginator.page(1)
     return render(req, 'page_index.html', {'category': cat, 'cats': cats, 'goods': goods})
 
 
