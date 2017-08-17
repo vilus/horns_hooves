@@ -9,9 +9,37 @@
         </tr>
         {% for good in goods %}
         <tr>
-            <td><a href="{% url "good" good_id=good.id  %}">{{ good.name }}</a></td>
+            <td><a href="{% url "good" good_id=good.id  %}?page={{ goods.number }}">{{ good.name }}</a></td>
             <td class="centered">{% if good.in_stock %}+{% endif %}</td>
         </tr>
         {% endfor %}
     </table>
+    {% if goods.paginator.num_pages > 1 %}
+        <div id="pagination">
+            {% if goods.has_previous %}
+            <div id="previous-page">
+                <a href="{% url "page_index" category_id=category.id %}?page={{ goods.previous_page_number }}">&lt;</a>
+            </div>
+            {% endif %}
+
+            {% if goods.has_next %}
+            <div id="next-page">
+                <a href="{% url "page_index" category_id=category.id %}?page={{ goods.next_page_number }}">&gt;</a>
+            </div>
+            {% endif %}
+
+            <div id="num-pages">
+                {% for pn in goods.paginator.page_range %}
+                    {% if not forloop.first %}
+                        &nbsp;&nbsp;|&nbsp;&nbsp;
+                    {% endif %}
+                    {% if goods.number == pn %}
+                        {{ pn }}
+                    {% else %}
+                        <a href="{% url "page_index" category_id=category.id %}?page={{ pn }}">{{ pn }}</a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}
