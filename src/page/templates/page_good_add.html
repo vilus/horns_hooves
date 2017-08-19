@@ -1,0 +1,12 @@
+{% extends "page_base.html" %}
+{% block title %}Добавление товара :: {{ category.name }}{% endblock %}
+{% block main %}
+  <form action="" method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" value="Добавить">
+  </form>
+  <p>
+      <a href="{% url "page_index" cat_id=category.id %}?page={{ pn }}">Назад</a>
+  </p>
+{% endblock %}

@@ -16,7 +16,7 @@
         <h2>Категории:</h2>
         <ul>
             {% for cat in cats %}
-                <li><a href="{% url "page_index" category_id=cat.id %}">{{ cat.name }}</a> </li>
+                <li><a href="{% url "page_index" cat_id=cat.id %}">{{ cat.name }}</a> </li>
             {% endfor %}
         </ul>
     </div>

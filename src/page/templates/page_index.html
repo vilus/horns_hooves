@@ -2,15 +2,24 @@
 {% block title %}{{ category.name }}{% endblock %}
 {% block main %}
     <h2>{{ category.name }}</h2>
+    <p><a href="{% url "good_add" cat_id=category.id %}?page={{ page_obj.number }}">Добавить товар</a></p>
     <table>
         <tr>
             <th>Название</th>
             <th>Есть в наличии</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
         </tr>
         {% for good in object_list %}
         <tr>
             <td><a href="{% url "good" good_id=good.id  %}?page={{ page_obj.number }}">{{ good.name }}</a></td>
             <td class="centered">{% if good.in_stock %}+{% endif %}</td>
+            <td class="centered">
+                <a href="{% url "good_edit" good_id=good.id %}?page={{ page_obj.number }}">Изменить</a>
+            </td>
+            <td class="centered">
+                <a href="{% url "good_delete" good_id=good.id %}?page={{ page_obj.number }}">Удалить</a>
+            </td>
         </tr>
         {% endfor %}
     </table>
@@ -18,13 +27,13 @@
         <div id="pagination">
             {% if page_obj.has_previous %}
             <div id="previous-page">
-                <a href="{% url "page_index" category_id=category.id %}?page={{ page_obj.previous_page_number }}">&lt;</a>
+                <a href="{% url "page_index" cat_id=category.id %}?page={{ page_obj.previous_page_number }}">&lt;</a>
             </div>
             {% endif %}
 
             {% if page_obj.has_next %}
             <div id="next-page">
-                <a href="{% url "page_index" category_id=category.id %}?page={{ page_obj.next_page_number }}">&gt;</a>
+                <a href="{% url "page_index" cat_id=category.id %}?page={{ page_obj.next_page_number }}">&gt;</a>
             </div>
             {% endif %}
 
@@ -36,7 +45,7 @@
                     {% if page_obj.number == pn %}
                         {{ pn }}
                     {% else %}
-                        <a href="{% url "page_index" category_id=category.id %}?page={{ pn }}">{{ pn }}</a>
+                        <a href="{% url "page_index" cat_id=category.id %}?page={{ pn }}">{{ pn }}</a>
                     {% endif %}
                 {% endfor %}
             </div>
