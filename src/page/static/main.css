@@ -72,3 +72,9 @@ body {
 #pagination #num-pages {
   text-align: center;
 }
+#messages {
+  font-style: italic;
+}
+#messages #success{
+  color: green;
+}

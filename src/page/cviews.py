@@ -1,3 +1,5 @@
+# coding=utf-8
+from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.views.generic.base import ContextMixin
@@ -25,13 +27,14 @@ class GoodEditView(ProcessFormView):
     def post(self, request, *args, **kwargs):
         pn = request.GET.get('page', '1')
         self.success_url = self.success_url + '?page=' + pn
-        return super(GoodEditView, self).post(request *args, **kwargs)
+        return super(GoodEditView, self).post(request, *args, **kwargs)
 
 
-class GoodCreate(CreateView, GoodEditMixin):
+class GoodCreate(SuccessMessageMixin, CreateView, GoodEditMixin):
     model = Good
     template_name = 'page_good_add.html'
     fields = '__all__'
+    success_message = 'Товар успешно добавлен'
 
     def get(self, request, *args, **kwargs):
         if self.kwargs['cat_id'] is not None:
@@ -50,11 +53,12 @@ class GoodCreate(CreateView, GoodEditMixin):
         return context
 
 
-class GoodUpdate(UpdateView, GoodEditMixin, GoodEditView):
+class GoodUpdate(SuccessMessageMixin, UpdateView, GoodEditMixin, GoodEditView):
     model = Good
     template_name = 'page_good_edit.html'
     pk_url_kwarg = 'good_id'
     fields = '__all__'
+    success_message = 'Товар успешно изменен'
 
     def post(self, request, *args, **kwargs):
         cat_id = Good.objects.get(pk=kwargs['good_id']).category.id
