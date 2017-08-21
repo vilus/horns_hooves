@@ -1,5 +1,5 @@
 @charset "utf-8";
-body {
+#body {
   margin: 0px;
   padding: 0px;
 }
@@ -82,4 +82,23 @@ body {
   font-size: smaller;
   float: right;
   padding-right: 10px;
+}
+.comment {
+  width: 640px;
+  border: 1px solid #cccccc;
+}
+.comment div {
+  padding: 4px;
+}
+.comment .user {
+  background-color: #eeeeee;
+  font-weight: bold;
+}
+.comment .date {
+  background-color: #eeeeee;
+  font-style: italic;
+  text-align: right;
+}
+.comment-removed {
+  font-weight: bold;
 }

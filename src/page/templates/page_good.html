@@ -11,4 +11,11 @@
     <p class="not-in-stock">
         <a href="{% url "page_index" cat_id=good.category.id %}?page={{ pn }}">Назад</a>
     </p>
+    <p>&nbsp;</p>
+    {% load comments %}
+    {% get_comment_count for good as good_comments_count %}
+    <p>Всего комментариев: {{good_comments_count }}.</p>
+    {% render_comment_list for good %}
+    <br>
+    {% render_comment_form for good %}
 {% endblock %}

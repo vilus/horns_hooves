@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'django_comments',
     'page',
 ]
 
@@ -57,7 +59,7 @@ ROOT_URLCONF = 'horns_hooves.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -128,3 +130,8 @@ MEDIA_URL = '/media/'
 LOGIN_URL = '/login/'
 LOGOUT_URL = '/logout/'
 LOGIN_REDIRECT_URL = '/goods/'
+
+SITE_ID = 1
+COMMENT_MAX_LENGTH = 1024
+COMMENTS_HIDE_REMOVED = False
+

@@ -26,4 +26,6 @@ urlpatterns = [
         {'template_name': 'login.html', 'extra_context': {'cats': Category.objects.all()}}, name='login'),
     url(r'^logout/', auth_views.logout, name='logout'),
     url(r'^goods/', include('page.urls')),
+    url(r'^comments/', include('django_comments.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
