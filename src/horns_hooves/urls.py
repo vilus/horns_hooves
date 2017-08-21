@@ -29,3 +29,6 @@ urlpatterns = [
     url(r'^comments/', include('django_comments.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns.append(url(r'dbg/', include(debug_toolbar.urls)))
