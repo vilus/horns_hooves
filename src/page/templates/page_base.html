@@ -9,6 +9,14 @@
 </head>
 
 <body>
+    <div id="user">
+        {{ user }}
+        {% if user.is_authenticated %}
+            <a href="{% url "logout" %}?next={{ request.path | urlencode }}"> Выход</a>
+        {% else %}
+            <a href="{% url "login" %}"> Вход</a>
+        {% endif %}
+    </div>
     {% if messages %}
         <ul id="messages">
             {% for msg in messages %}

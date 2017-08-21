@@ -2,7 +2,9 @@
 {% block title %}{{ category.name }}{% endblock %}
 {% block main %}
     <h2>{{ category.name }}</h2>
-    <p><a href="{% url "good_add" cat_id=category.id %}?page={{ page_obj.number }}">Добавить товар</a></p>
+    {% if perms.page.add_good %}
+        <p><a href="{% url "good_add" cat_id=category.id %}?page={{ page_obj.number }}">Добавить товар</a></p>
+    {% endif %}
     <table>
         <tr>
             <th>Название</th>
@@ -14,12 +16,16 @@
         <tr>
             <td><a href="{% url "good" good_id=good.id  %}?page={{ page_obj.number }}">{{ good.name }}</a></td>
             <td class="centered">{% if good.in_stock %}+{% endif %}</td>
-            <td class="centered">
-                <a href="{% url "good_edit" good_id=good.id %}?page={{ page_obj.number }}">Изменить</a>
-            </td>
-            <td class="centered">
-                <a href="{% url "good_delete" good_id=good.id %}?page={{ page_obj.number }}">Удалить</a>
-            </td>
+            {% if perms.page.change_good %}
+                <td class="centered">
+                    <a href="{% url "good_edit" good_id=good.id %}?page={{ page_obj.number }}">Изменить</a>
+                </td>
+            {% endif %}
+            {% if perms.page.delete_good %}
+                <td class="centered">
+                    <a href="{% url "good_delete" good_id=good.id %}?page={{ page_obj.number }}">Удалить</a>
+                </td>
+            {% endif %}
         </tr>
         {% endfor %}
     </table>
