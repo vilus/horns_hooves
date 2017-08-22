@@ -2,3 +2,4 @@ Django==1.11
 Pillow
 django-contrib-comments
 django-debug-toolbar
+easy-thumbnails

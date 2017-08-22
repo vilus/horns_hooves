@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.flatpages',
     'django_comments',
+    'easy_thumbnails',
     'page',
 ]
 
@@ -165,3 +166,6 @@ if DEBUG:
     DEBUG_TOOLBAR_CONFIG = {
         "SHOW_TOOLBAR_CALLBACK": show_toolbar,
     }
+
+THUMBNAIL_BASEDIR = 'thumbnails'
+THUMBNAIL_DEFAULT_OPTIONS = {'crop': 'smart', 'detail': True}
