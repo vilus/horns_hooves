@@ -1,0 +1,9 @@
+{# TODO: need to move bases templates from page app #}
+{% extends "page_base.html" %}
+{% load static %}
+{% block title %}{{ flatpage.title }}{% endblock %}
+{% block main %}
+  <h2>{{ flatpage.title }}</h2>
+  <p>&nbsp;</p>
+  {{ flatpage.content }}
+{% endblock %}

@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
+from django.contrib.flatpages.views import flatpage
 from page.models import Category
 
 urlpatterns = [
@@ -27,6 +28,7 @@ urlpatterns = [
     url(r'^logout/', auth_views.logout, name='logout'),
     url(r'^goods/', include('page.urls')),
     url(r'^comments/', include('django_comments.urls')),
+    url(r'^(?P<url>.*/)$', flatpage),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
