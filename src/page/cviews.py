@@ -96,7 +96,11 @@ class GoodListView(ListView, CategoryListMixin):
         return context
 
     def get_queryset(self):
-        return Good.objects.filter(category=self.cat).order_by('name')
+        goods = Good.objects.filter(category=self.cat).order_by('name')
+        tag = self.request.GET.get('tag')
+        if tag:
+            goods = goods.filter(tags__name=tag)
+        return goods
 
 
 class GoodDetailView(DetailView, CategoryListMixin):

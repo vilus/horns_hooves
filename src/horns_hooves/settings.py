@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.flatpages',
     'django_comments',
     'easy_thumbnails',
+    'taggit',
     'page',
 ]
 

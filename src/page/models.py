@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
-
+from taggit.managers import TaggableManager
 
 class Category(models.Model):
     name = models.CharField(max_length=30, unique=True)
@@ -18,6 +18,7 @@ class Good(models.Model):
     in_stock = models.BooleanField(default=True, db_index=True, verbose_name='В наличии')
     category = models.ForeignKey(Category, null=True, blank=True, on_delete=models.SET_NULL)
     thumbnail = models.ImageField(upload_to='goods/thumbnails', null=True, blank=True)
+    tags = TaggableManager(blank=True, verbose_name='Теги')
 
     def __str__(self):
         return self.name

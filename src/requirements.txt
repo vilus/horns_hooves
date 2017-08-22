@@ -3,3 +3,4 @@ Pillow
 django-contrib-comments
 django-debug-toolbar
 easy-thumbnails
+django-taggit

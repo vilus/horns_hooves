@@ -8,6 +8,17 @@
     {% if good.thumbnail %}
         <img src="{{ good.thumbnail.url }}">
     {% endif %}
+    {% with tnames=good.tags.names %}
+        {% if tnames.count > 0 %}
+            <p>
+                Теги:
+                {% for tname in tnames %}
+                    {% if not forloop.first %}, {% endif %}
+                    <a href="{% url "page_index" cat_id=good.category.id %}?tag={{ tname|urlencode }}">{{ tname }}</a>
+                {% endfor %}
+            </p>
+        {% endif %}
+    {% endwith %}
     <p class="not-in-stock">
         <a href="{% url "page_index" cat_id=good.category.id %}?page={{ pn }}">Назад</a>
     </p>
