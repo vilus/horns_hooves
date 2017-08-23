@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
+import logging
 from django.db import models
 from taggit.managers import TaggableManager
+
+logger = logging.getLogger('dev.'+__name__)
+
 
 class Category(models.Model):
     name = models.CharField(max_length=30, unique=True)
@@ -28,12 +31,14 @@ class Good(models.Model):
             this_rec = Good.objects.get(pk=self.id)
             if this_rec.thumbnail != self.thumbnail:
                 this_rec.thumbnail.delete(save=False)
-        except Exception:
-            # TODO: add to log
+        except Good.DoesNotExist:
             pass
+        except Exception:
+            logger.exception('exception on save {0}'.format(self))
         super(Good, self).save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
+        logger.debug('delete good: {0}'.format(self))
         self.thumbnail.delete(save=False)
         super(Good, self).delete(*args, **kwargs)
 

@@ -1,4 +1,5 @@
 # coding=utf-8
+import logging
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
@@ -7,6 +8,8 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.edit import ProcessFormView
 from django.core.urlresolvers import reverse
 from page.models import Category, Good
+
+logger = logging.getLogger('dev.'+__name__)
 
 
 class CategoryListMixin(ContextMixin):
@@ -88,6 +91,7 @@ class GoodListView(ListView, CategoryListMixin):
             self.cat = Category.objects.get(id=kwargs['cat_id'])
         else:
             self.cat = Category.objects.first()
+        logger.debug('get goods for category: {0}'.format(self.cat.name))
         return super(GoodListView, self).get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):

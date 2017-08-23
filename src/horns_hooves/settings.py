@@ -170,3 +170,46 @@ if DEBUG:
 
 THUMBNAIL_BASEDIR = 'thumbnails'
 THUMBNAIL_DEFAULT_OPTIONS = {'crop': 'smart', 'detail': True}
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'formatters': {
+        'verbose': {'format': '[%(levelname)s %(asctime)s %(filename)s:%(lineno)s %(name)s] %(message)s'},
+    },
+    'handlers': {
+        'dev': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'maxBytes': 1024*1024*10,
+            'backupCount': 10,
+            'filename': os.path.join(BASE_DIR, 'dev.log'),
+            'formatter': 'verbose',
+        },
+        'dj': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'maxBytes': 1024*1024*10,
+            'backupCount': 10,
+            'filename': os.path.join(BASE_DIR, 'dj.log'),
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        'django': {
+            'level': 'WARNING',
+            'handlers': ['dj'],
+            'propogate': False,
+        },
+        'dev': {
+            'level': 'WARNING',
+            'handlers': ['dev'],
+            'propogate': False,
+        },
+    },
+}
+if DEBUG:
+    LOGGING['handlers']['console'] = {'level': 'DEBUG', 'class': 'logging.StreamHandler'}
+    LOGGING['loggers']['django']['handlers'].append('console')
+    LOGGING['loggers']['django']['level'] = 'DEBUG'
+    LOGGING['loggers']['dev']['level'] = 'DEBUG'
