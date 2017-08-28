@@ -143,7 +143,7 @@ COMMENTS_HIDE_REMOVED = False
 DEBUG_TOOLBAR_PATCH_SETTINGS = False
 INTERNAL_IPS = ['127.0.0.1']
 if DEBUG:
-    INSTALLED_APPS.append('debug_toolbar')
+    INSTALLED_APPS.insert(0, 'debug_toolbar')
     INTERNAL_IPS.append('0.0.0.0')
     DEBUG_TOOLBAR_PANELS = [
         'debug_toolbar.panels.versions.VersionsPanel',
@@ -211,5 +211,5 @@ LOGGING = {
 if DEBUG:
     LOGGING['handlers']['console'] = {'level': 'DEBUG', 'class': 'logging.StreamHandler'}
     LOGGING['loggers']['django']['handlers'].append('console')
-    LOGGING['loggers']['django']['level'] = 'DEBUG'
+    LOGGING['loggers']['django']['level'] = 'INFO'
     LOGGING['loggers']['dev']['level'] = 'DEBUG'

@@ -21,7 +21,14 @@ from django.contrib.auth import views as auth_views
 from django.contrib.flatpages.views import flatpage
 from page.models import Category
 
-urlpatterns = [
+
+urlpatterns = []
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns.append(url(r'^dbg/', include(debug_toolbar.urls, namespace='djdt')))
+
+urlpatterns += [
     url(r'^admin/', admin.site.urls),
     url(r'^login/', auth_views.login,
         {'template_name': 'login.html', 'extra_context': {'cats': Category.objects.all()}}, name='login'),
@@ -30,7 +37,3 @@ urlpatterns = [
     url(r'^comments/', include('django_comments.urls')),
     url(r'^(?P<url>.*/)$', flatpage),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-if settings.DEBUG:
-    import debug_toolbar
-    urlpatterns.append(url(r'dbg/', include(debug_toolbar.urls)))
