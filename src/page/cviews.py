@@ -91,7 +91,8 @@ class GoodListView(ListView, CategoryListMixin):
             self.cat = Category.objects.get(id=kwargs['cat_id'])
         else:
             self.cat = Category.objects.first()
-        logger.debug('get goods for category: {0}'.format(self.cat.name))
+        if self.cat:
+            logger.debug('get goods for category: {0}'.format(self.cat.name))
         return super(GoodListView, self).get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
