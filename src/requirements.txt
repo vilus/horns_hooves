@@ -4,3 +4,4 @@ django-contrib-comments
 django-debug-toolbar
 easy-thumbnails
 django-taggit
+gunicorn==19.7.1
