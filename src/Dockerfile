@@ -8,6 +8,7 @@ RUN pip install -r requirements.txt
 COPY . /django_backend
 RUN ./manage.py test --debug-mode -v 2 --settings horns_hooves.settings.tests
 RUN rm -f db.sqlite3 || :
+RUN ./manage.py makemigrations
 
 EXPOSE 8000
 RUN groupadd -r uwsgi && useradd -r -g uwsgi uwsgi
