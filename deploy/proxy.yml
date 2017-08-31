@@ -1,0 +1,9 @@
+---
+
+- hosts: reverse_proxy
+  vars:
+    proxy_image_name: proxy
+    _backend_ip: "{{ backend_ip }}"
+  roles:
+    - common
+    - proxy

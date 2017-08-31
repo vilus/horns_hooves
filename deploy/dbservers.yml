@@ -1,0 +1,5 @@
+---
+- hosts: dbservers_docker_host
+  roles:
+    - common
+    - db

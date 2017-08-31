@@ -1,0 +1,13 @@
+---
+
+- hosts: webservers_docker_host
+  vars:
+    web_image_name: dj_bk
+    dj_settings: horns_hooves.settings.docker
+    _db_ip: "{{ db_ip }}"
+    _guni_port: "{{ guni_port }}"
+    _location_port: "{{ location_port }}"
+    _wsgi_app: "{{ wsgi_app }}"
+  roles:
+    - common
+    - web 

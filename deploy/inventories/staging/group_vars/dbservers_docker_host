@@ -1,0 +1,5 @@
+postgres_image_tag: 9.6
+db_name: postgres
+db_user: postgres
+db_pass: postgres
+db_port: 5432

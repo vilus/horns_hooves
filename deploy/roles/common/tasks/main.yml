@@ -1,0 +1,12 @@
+---
+
+- name: easy-install
+  package:
+    name: python-setuptools
+    state: latest
+
+- name: pip
+  easy_install: name=pip
+
+- name: docker-py
+  pip: name=docker-py

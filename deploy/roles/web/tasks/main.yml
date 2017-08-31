@@ -1,0 +1,25 @@
+---
+
+- name: web container
+  docker:
+    image: "{{ web_image_name }}"
+    restart_policy: always
+    env:
+      DJANGO_SETTINGS_MODULE: "{{ dj_settings }}"
+      DB_NAME: "{{ db_name }}"
+      DB_USER: "{{ db_user }}"
+      DB_PASS: "{{ db_pass }}"
+      DB_PORT: "{{ db_port }}"
+      DB_SERVICE: postgres
+    extra_hosts:
+      postgres: "{{ _db_ip }}"
+    volumes:
+      - "{{ static_volume }}:{{ static_root }}"
+    ports:
+      - "{{ _guni_port }}:{{ _location_port }}"
+    log_driver: journald
+    state: reloaded
+    command: gunicorn "{{ _wsgi_app }}" -w 2 -b :"{{ _guni_port }}"
+
+# create {{ static_root }} and $(chmod 777 /static/)
+

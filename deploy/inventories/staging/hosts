@@ -1,0 +1,9 @@
+[dbservers_docker_host]
+172.17.0.1
+
+[webservers_docker_host]
+172.17.0.1
+
+[reverse_proxy]
+172.17.0.1
+

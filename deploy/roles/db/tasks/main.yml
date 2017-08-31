@@ -1,0 +1,20 @@
+---
+
+- name: pull postgres image
+  docker_image:
+    name: postgres:{{ postgres_image_tag }}
+
+- name: postgres container
+  docker:
+    name: "{{ db_container_name }}"
+    image: postgres:{{ postgres_image_tag }}
+    restart_policy: always
+    env:
+      DB_NAME: "{{ db_name }}"
+      DB_USER: "{{ db_user }}"
+      DB_PASS: "{{ db_pass }}"
+      DB_PORT: "{{ db_port }}" 
+    ports:
+      - "{{ db_port }}:{{ db_port }}"
+  # notify:
+  #   - restore db

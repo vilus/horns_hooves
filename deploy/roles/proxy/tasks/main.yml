@@ -1,0 +1,15 @@
+---
+
+- name: proxy container
+  docker:
+    image: "{{ proxy_image_name }}"
+    restart_policy: always
+    extra_hosts:
+      backend: "{{ _backend_ip }}"
+    volumes:
+      - "{{ static_volume }}:{{ static_volume }}"
+    ports:
+      - "80:80"
+    state: reloaded
+    command: nginx -g 'daemon off;'
+
