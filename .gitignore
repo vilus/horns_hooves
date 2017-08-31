@@ -6,4 +6,5 @@ src/static
 *.log
 src/horns_hooves/static/
 .env
+*.swp
 
