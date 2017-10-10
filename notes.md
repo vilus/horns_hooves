@@ -15,4 +15,5 @@ docker run -it --rm -v ${HOME}/.ssh:/root/.ssh:ro -v $(pwd):/ansible -w /ansible
 - [ ] TODO: create docker-compose for rebuild (and push) images
 - [ ] TODO: add volume for uploads to dj_back containers
 - [ ] TODO: configure logging to stdout for docker settings of dj_back
+- [ ] TODO: for deploy via ansible, in section upstream backends of nginx conf need to include file with adresses
 
