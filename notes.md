@@ -7,6 +7,7 @@ firewall-cmd --reload
 ```
 > example cmdline of deploy "staging" via ansible:
 ```sh
+cd deploy
 docker run -it --rm -v ${HOME}/.ssh:/root/.ssh:ro -v $(pwd):/ansible -w /ansible ansible/centos7-ansible ansible-playbook -i inventories/staging site.yml
 ```
 #
