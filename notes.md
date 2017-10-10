@@ -3,9 +3,11 @@
     firewall-cmd --zone=public --add-port=5432/tcp --permanent
     firewall-cmd --reload
 
+
 > example cmdline of deploy "staging" via ansible:
 
     docker run -it --rm -v ${HOME}/.ssh:/root/.ssh:ro -v $(pwd):/ansible -w /ansible ansible/centos7-ansible ansible-playbook -i inventories/staging site.yml
+
 
 #### TODO: create ssh keys for "staging"
 
