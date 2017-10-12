@@ -16,4 +16,10 @@ docker run -it --rm -v ${HOME}/.ssh:/root/.ssh:ro -v $(pwd):/ansible -w /ansible
 - [ ] TODO: add volume for uploads to dj_back containers
 - [ ] TODO: configure logging to stdout for docker settings of dj_back
 - [ ] TODO: for deploy via ansible, in section upstream backends of nginx conf need to include file with adresses
+- [ ] TODO: fix warning about deprecated "docker" in ansible staff
+- [ ] TODO: reset routing to call app page by root
+- [ ] TODO: move all definition vars in ansible playbooks to inventories/*/group_vars/all
+- [ ] TODO: add ability to manage price of goods
+- [ ] TODO: add CRUD via Django Rest Framework
+- [ ] TODO: add history of goods modification
 
