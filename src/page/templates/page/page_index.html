@@ -2,7 +2,7 @@
 {% block title %}{{ category.name }}{% endblock %}
 {% block main %}
     <h2>{{ category.name }}</h2>
-    {% if perms.page.add_good %}
+    {% if perms.page.add_good and category %}
         <p><a href="{% url "good_add" cat_id=category.id %}?page={{ page_obj.number }}">Добавить товар</a></p>
     {% endif %}
     <table>

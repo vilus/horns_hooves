@@ -38,6 +38,7 @@ class GoodCreate(SuccessMessageMixin, CreateView, GoodEditMixin):
     template_name = 'page/page_good_add.html'
     fields = '__all__'
     success_message = 'Товар успешно добавлен'
+    # TODO: add validation for "cat_id"
 
     def get(self, request, *args, **kwargs):
         if self.kwargs['cat_id'] is not None:
@@ -62,6 +63,7 @@ class GoodUpdate(SuccessMessageMixin, UpdateView, GoodEditMixin, GoodEditView):
     pk_url_kwarg = 'good_id'
     fields = '__all__'
     success_message = 'Товар успешно изменен'
+    # TODO: add validation for "good_id"
 
     def post(self, request, *args, **kwargs):
         cat_id = Good.objects.get(pk=kwargs['good_id']).category.id
@@ -74,6 +76,7 @@ class GoodDelete(DeleteView, GoodEditMixin, GoodEditView):
     template_name = 'page/page_good_delete.html'
     pk_url_kwarg = 'good_id'
     fields = '__all__'
+    # TODO: add validation for "good_id"
 
     def post(self, request, *args, **kwargs):
         cat_id = Good.objects.get(pk=kwargs['good_id']).category.id

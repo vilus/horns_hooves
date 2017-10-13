@@ -7,4 +7,6 @@ src/static
 src/horns_hooves/static/
 .env
 *.swp
+*.retry
+deploy/db_volume/
 
