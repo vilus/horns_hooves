@@ -28,16 +28,22 @@
         <h1>Список товаров</h1>
     </div>
     <div id="leftmenu">
+    <div class="padding_">
         <h2>Категории:</h2>
         <ul>
             {% for cat in cats %}
                 <li><a href="{% url "page_index" cat_id=cat.id %}">{{ cat.name }}</a> </li>
+            {% empty %}
+            <p>список пуст</p>
             {% endfor %}
         </ul>
     </div>
+    </div>
     <div id="main">
+    <div class="padding_">
         {% block main %}
         {% endblock %}
+    </div>
     </div>
     <div id="footer">
         <p>Все права принадлежат народу</p>

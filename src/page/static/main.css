@@ -14,7 +14,8 @@
 #leftmenu {
   float: left;
   width: 150px;
-  padding: 10px;
+  padding: 0px;
+  border-right: 1px #cccccc solid;
 }
 #leftmenu ul {
   margin: 0px;
@@ -27,7 +28,7 @@
 #main {
   margin-left: 150px;
   border-left: 1px #cccccc solid;
-  padding: 10px;
+  padding: 0px;
 }
 #main h2 {
   margin: 0px 0px 10px 0px;
@@ -50,6 +51,7 @@
   color: #FF0000;
 }
 #footer {
+  clear: both;
   text-align: right;
   border-top: 1px #cccccc solid;
   padding-right: 10px;
@@ -101,4 +103,7 @@
 }
 .comment-removed {
   font-weight: bold;
+}
+.padding_ {
+  padding: 10px;
 }

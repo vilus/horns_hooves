@@ -6,13 +6,19 @@
         <p><a href="{% url "good_add" cat_id=category.id %}?page={{ page_obj.number }}">Добавить товар</a></p>
     {% endif %}
     <table>
+        {% if object_list %}
         <tr>
             <th>Фото</th>
             <th>Название</th>
             <th>Есть в наличии</th>
-            <th>&nbsp;</th>
-            <th>&nbsp;</th>
+            {% if perms.page.change_good %}
+                <th>Изменить</th>
+            {% endif %}
+            {% if perms.page.delete_good %}
+                <th>Удалить</th>
+            {% endif %}
         </tr>
+        {% endif %}
         {% for good in object_list %}
         <tr>
             {% load thumbnail %}
@@ -32,6 +38,8 @@
                 </td>
             {% endif %}
         </tr>
+        {% empty %}
+            <p>В данной категории отвары отсутствуют</p>
         {% endfor %}
     </table>
     {% if paginator.num_pages > 1 %}
