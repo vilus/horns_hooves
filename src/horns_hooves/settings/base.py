@@ -55,7 +55,10 @@ ROOT_URLCONF = 'horns_hooves.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [
+            os.path.join(os.path.dirname(BASE_DIR), 'templates'),
+            os.path.join(BASE_DIR, 'templates'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -122,7 +125,8 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'uploads')
+MEDIA_ROOT = 'uploads'
 MEDIA_URL = '/media/'
 
 LOGIN_URL = '/login/'

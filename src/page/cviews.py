@@ -35,7 +35,7 @@ class GoodEditView(ProcessFormView):
 
 class GoodCreate(SuccessMessageMixin, CreateView, GoodEditMixin):
     model = Good
-    template_name = 'page_good_add.html'
+    template_name = 'page/page_good_add.html'
     fields = '__all__'
     success_message = 'Товар успешно добавлен'
 
@@ -58,7 +58,7 @@ class GoodCreate(SuccessMessageMixin, CreateView, GoodEditMixin):
 
 class GoodUpdate(SuccessMessageMixin, UpdateView, GoodEditMixin, GoodEditView):
     model = Good
-    template_name = 'page_good_edit.html'
+    template_name = 'page/page_good_edit.html'
     pk_url_kwarg = 'good_id'
     fields = '__all__'
     success_message = 'Товар успешно изменен'
@@ -71,7 +71,7 @@ class GoodUpdate(SuccessMessageMixin, UpdateView, GoodEditMixin, GoodEditView):
 
 class GoodDelete(DeleteView, GoodEditMixin, GoodEditView):
     model = Good
-    template_name = 'page_good_delete.html'
+    template_name = 'page/page_good_delete.html'
     pk_url_kwarg = 'good_id'
     fields = '__all__'
 
@@ -82,7 +82,7 @@ class GoodDelete(DeleteView, GoodEditMixin, GoodEditView):
 
 
 class GoodListView(ListView, CategoryListMixin):
-    template_name = 'page_index.html'
+    template_name = 'page/page_index.html'
     paginate_by = 3
     cat = None
 
@@ -109,7 +109,7 @@ class GoodListView(ListView, CategoryListMixin):
 
 
 class GoodDetailView(DetailView, CategoryListMixin):
-    template_name = 'page_good.html'
+    template_name = 'page/page_good.html'
     model = Good
     pk_url_kwarg = 'good_id'
 

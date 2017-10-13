@@ -31,7 +31,7 @@ if settings.DEBUG:
 urlpatterns += [
     url(r'^admin/', admin.site.urls),
     url(r'^login/', auth_views.login,
-        {'template_name': 'login.html', 'extra_context': {'cats': Category.objects.all()}}, name='login'),
+        {'template_name': 'page/login.html', 'extra_context': {'cats': Category.objects.all()}}, name='login'),
     url(r'^logout/', auth_views.logout, name='logout'),
     url(r'^goods/', include('page.urls')),
     url(r'^comments/', include('django_comments.urls')),
