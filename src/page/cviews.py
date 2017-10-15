@@ -6,7 +6,9 @@ from django.views.generic.list import ListView
 from django.views.generic.base import ContextMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.edit import ProcessFormView
+from django.http import Http404
 from django.core.urlresolvers import reverse
+from django.shortcuts import get_object_or_404
 from page.models import Category, Good
 
 logger = logging.getLogger('dev.'+__name__)
@@ -38,16 +40,18 @@ class GoodCreate(SuccessMessageMixin, CreateView, GoodEditMixin):
     template_name = 'page/page_good_add.html'
     fields = '__all__'
     success_message = 'Товар успешно добавлен'
-    # TODO: add validation for "cat_id"
 
     def get(self, request, *args, **kwargs):
         if self.kwargs['cat_id'] is not None:
-            self.initial['category'] = Category.objects.get(pk=self.kwargs['cat_id'])
+            try:
+                cat_id = int(self.kwargs['cat_id'])
+            except ValueError:
+                raise Http404()
+            self.initial['category'] = get_object_or_404(Category, pk=cat_id)
         return super(GoodCreate, self).get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
         cat_id = Category.objects.get(pk=self.kwargs['cat_id']).id
-        # TODO: maybe to use just self.kwargs['cat_id'] without *.objects.get
         self.success_url = reverse('page_index', kwargs={'cat_id': cat_id})
         return super(GoodCreate, self).post(request, *args, **kwargs)
 
@@ -63,7 +67,6 @@ class GoodUpdate(SuccessMessageMixin, UpdateView, GoodEditMixin, GoodEditView):
     pk_url_kwarg = 'good_id'
     fields = '__all__'
     success_message = 'Товар успешно изменен'
-    # TODO: add validation for "good_id"
 
     def post(self, request, *args, **kwargs):
         cat_id = Good.objects.get(pk=kwargs['good_id']).category.id
@@ -76,9 +79,9 @@ class GoodDelete(DeleteView, GoodEditMixin, GoodEditView):
     template_name = 'page/page_good_delete.html'
     pk_url_kwarg = 'good_id'
     fields = '__all__'
-    # TODO: add validation for "good_id"
 
     def post(self, request, *args, **kwargs):
+        # TODO: seems like *View already reraise DoesNotExists to Http404
         cat_id = Good.objects.get(pk=kwargs['good_id']).category.id
         self.success_url = reverse('page_index', kwargs={'cat_id': cat_id})
         return super(GoodDelete, self).post(request, *args, **kwargs)
