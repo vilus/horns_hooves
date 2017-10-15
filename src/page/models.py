@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 import logging
 from django.db import models
+from django.core.validators import MinValueValidator
 from taggit.managers import TaggableManager
 
 logger = logging.getLogger('dev.'+__name__)
@@ -22,6 +23,7 @@ class Good(models.Model):
     category = models.ForeignKey(Category, null=True, blank=True, on_delete=models.SET_NULL)
     thumbnail = models.ImageField(upload_to='goods/thumbnails', null=True, blank=True)
     tags = TaggableManager(blank=True, verbose_name='Теги')
+    price = models.DecimalField(max_digits=8, decimal_places=2, default=0, validators=[MinValueValidator(0.0)])
 
     def __str__(self):
         return self.name

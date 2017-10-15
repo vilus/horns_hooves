@@ -3,11 +3,12 @@
 {% block main %}
     <h2>Название: {{ good.name }}</h2>
     <p class="category">Категория: {{ good.category.name }}</p>
-    <p>{{ good.description|linebreaksbr }}</p>
+    <p>Описание: {{ good.description|linebreaksbr }}</p>
     <p>{% if not good.in_stock %}Нет в наличии!{% endif %}</p>
     {% if good.thumbnail %}
         <img src="{{ good.thumbnail.url }}">
     {% endif %}
+    <p>Цена: {{ good.price }} руб.</p>
     {% with tnames=good.tags.names %}
         {% if tnames.count > 0 %}
             <p>

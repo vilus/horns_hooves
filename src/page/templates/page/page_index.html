@@ -10,6 +10,7 @@
         <tr>
             <th>Фото</th>
             <th>Название</th>
+            <th>Цена</th>
             <th>Есть в наличии</th>
             {% if perms.page.change_good %}
                 <th>Изменить</th>
@@ -20,20 +21,21 @@
         </tr>
         {% endif %}
         {% for good in object_list %}
-        <tr>
+        <tr class="centered">
             {% load thumbnail %}
-            <td class="centered">
+            <td>
                 <img src="{% thumbnail good.thumbnail|default:"goods/thumbnails/default.png" 40x40 %}">
             </td>
             <td><a href="{% url "good" good_id=good.id  %}?page={{ page_obj.number }}">{{ good.name }}</a></td>
-            <td class="centered">{% if good.in_stock %}+{% endif %}</td>
+            <td>{{ good.price }} руб.</td>
+            <td>{% if good.in_stock %}+{% endif %}</td>
             {% if perms.page.change_good %}
-                <td class="centered">
+                <td>
                     <a href="{% url "good_edit" good_id=good.id %}?page={{ page_obj.number }}">Изменить</a>
                 </td>
             {% endif %}
             {% if perms.page.delete_good %}
-                <td class="centered">
+                <td>
                     <a href="{% url "good_delete" good_id=good.id %}?page={{ page_obj.number }}">Удалить</a>
                 </td>
             {% endif %}

@@ -41,7 +41,7 @@
   border: 1px #666666 solid;
   padding: 5px;
 }
-#main table td.centered {
+#main table tr.centered {
   text-align: center;
 }
 #main p.category {
