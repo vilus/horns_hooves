@@ -131,7 +131,7 @@ MEDIA_URL = '/media/'
 
 LOGIN_URL = '/login/'
 LOGOUT_URL = '/logout/'
-LOGIN_REDIRECT_URL = '/goods/'
+LOGIN_REDIRECT_URL = '/'
 
 SITE_ID = 1
 COMMENT_MAX_LENGTH = 1024

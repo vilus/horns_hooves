@@ -33,7 +33,7 @@ urlpatterns += [
     url(r'^login/', auth_views.login,
         {'template_name': 'page/login.html', 'extra_context': {'cats': Category.objects.all()}}, name='login'),
     url(r'^logout/', auth_views.logout, name='logout'),
-    url(r'^goods/', include('page.urls')),
+    url(r'^', include('page.urls')),
     url(r'^comments/', include('django_comments.urls')),
     url(r'^(?P<url>.*/)$', flatpage),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
