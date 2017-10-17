@@ -1,0 +1,8 @@
+version: '2'
+
+services:
+  backend:
+    env_file: '.env_prod'
+    # .env_prod - with production creadentionals
+    command: 'gunicorn horns_hooves.wsgi:application -w 4 -b :8000'
+
