@@ -94,7 +94,7 @@ class GoodListView(ListView, CategoryListMixin):
 
     def get(self, request, *args, **kwargs):
         if kwargs['cat_id']:
-            self.cat = Category.objects.get(id=kwargs['cat_id'])
+            self.cat = get_object_or_404(Category, id=kwargs['cat_id'])
         else:
             self.cat = Category.objects.first()
         if self.cat:

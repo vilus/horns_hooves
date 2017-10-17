@@ -1,7 +1,7 @@
 {% extends "page/page_base.html" %}
-{% block title %}{{ category.name }}{% endblock %}
+{% block title %}{% if category %}{{ category.name }}{% endif %}{% endblock %}
 {% block main %}
-    <h2>{{ category.name }}</h2>
+    <h2>{% if category %}{{ category.name }}{% endif %}</h2>
     {% if perms.page.add_good and category %}
         <p><a href="{% url "good_add" cat_id=category.id %}?page={{ page_obj.number }}">Добавить товар</a></p>
     {% endif %}
