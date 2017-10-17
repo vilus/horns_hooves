@@ -30,3 +30,23 @@ class SmokeTestCase(TestCase):
 
 for rev_params in SmokeTestCase.urls:
     setattr(SmokeTestCase, 'test_' + rev_params['viewname'], lambda self, x=rev_params: self._check_status200(**x))
+
+
+class FromMiddlewareCase(TestCase):
+    """
+    Check cookie that set via process_request and process_responce in middleware
+    """
+
+    def test_cookie_from_middleware(self):
+        res = self.client.get('/')
+        from_md = res.cookies.get('from_middleware', False)
+        self.assertTrue(from_md, 'cookie "from_middleware" was not added as expected')
+        self.assertTrue('from middleware' in str(from_md),
+                        'unexpected value ({0}) of cookie that set via middleware'.format(from_md))
+
+    def test_reraise_in_mmiddleware(self):
+        """
+        horns_hooves.middleware.ProcessException "reraices"  404 to 500
+        """
+        res = self.client.get('/qwerty_does_not_exists_page/')
+        self.assertEqual(res.status_code, 500)

@@ -21,6 +21,50 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'pe_7ax@i4bu02@*eh_7s-_^hzgb-5t+r8tyvr*((dc
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', 'NO').lower() in ('on', 'true', 'y', 'yes')
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'formatters': {
+        'verbose': {'format': '[%(levelname)s %(asctime)s %(filename)s:%(lineno)s %(name)s] %(message)s'},
+    },
+    'handlers': {
+        'dev': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'maxBytes': 1024*1024*10,
+            'backupCount': 10,
+            'filename': os.path.join(BASE_DIR, 'dev.log'),
+            'formatter': 'verbose',
+        },
+        'dj': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'maxBytes': 1024*1024*10,
+            'backupCount': 10,
+            'filename': os.path.join(BASE_DIR, 'dj.log'),
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        'django': {
+            'level': 'WARNING',
+            'handlers': ['dj'],
+            'propogate': False,
+        },
+        'dev': {
+            'level': 'WARNING',
+            'handlers': ['dev'],
+            'propogate': False,
+        },
+    },
+}
+
+if DEBUG:
+    LOGGING['handlers']['console'] = {'level': 'DEBUG', 'class': 'logging.StreamHandler'}
+    LOGGING['loggers']['django']['handlers'].append('console')
+    LOGGING['loggers']['django']['level'] = 'INFO'
+    LOGGING['loggers']['dev']['level'] = 'DEBUG'
+
 ALLOWED_HOSTS = ['*']
 
 # Application definition
@@ -48,6 +92,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'horns_hooves.middleware.ProcessRequest',
+    'horns_hooves.middleware.ProcessResponse',
+    'horns_hooves.middleware.ProcessException',
 ]
 
 ROOT_URLCONF = 'horns_hooves.urls'
@@ -167,46 +214,3 @@ if DEBUG:
 
 THUMBNAIL_BASEDIR = 'thumbnails'
 THUMBNAIL_DEFAULT_OPTIONS = {'crop': 'smart', 'detail': True}
-
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': True,
-    'formatters': {
-        'verbose': {'format': '[%(levelname)s %(asctime)s %(filename)s:%(lineno)s %(name)s] %(message)s'},
-    },
-    'handlers': {
-        'dev': {
-            'level': 'DEBUG',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'maxBytes': 1024*1024*10,
-            'backupCount': 10,
-            'filename': os.path.join(BASE_DIR, 'dev.log'),
-            'formatter': 'verbose',
-        },
-        'dj': {
-            'level': 'DEBUG',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'maxBytes': 1024*1024*10,
-            'backupCount': 10,
-            'filename': os.path.join(BASE_DIR, 'dj.log'),
-            'formatter': 'verbose',
-        },
-    },
-    'loggers': {
-        'django': {
-            'level': 'WARNING',
-            'handlers': ['dj'],
-            'propogate': False,
-        },
-        'dev': {
-            'level': 'WARNING',
-            'handlers': ['dev'],
-            'propogate': False,
-        },
-    },
-}
-if DEBUG:
-    LOGGING['handlers']['console'] = {'level': 'DEBUG', 'class': 'logging.StreamHandler'}
-    LOGGING['loggers']['django']['handlers'].append('console')
-    LOGGING['loggers']['django']['level'] = 'INFO'
-    LOGGING['loggers']['dev']['level'] = 'DEBUG'
