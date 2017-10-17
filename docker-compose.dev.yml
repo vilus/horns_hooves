@@ -1,0 +1,20 @@
+version: '2'
+
+services:
+  backend:
+    environment:
+      - DEBUG=true
+      - DJANGO_SETTINGS_MODULE=horns_hooves.settings.docker_dev
+    command:
+      - /bin/sh
+      - -c
+      - |
+           python manage.py loaddata page/fixtures/test_data.json
+           python manage.py runserver 0.0.0.0:8000 -v2
+    user: '0'
+    volumes:
+      - './src:/django_backend/:rw'
+
+  postgres:
+    # TODO: need to prepare fixtures for postgres
+    image: 'busybox'
