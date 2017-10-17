@@ -1,3 +1,4 @@
+import sys
 from .base import *
 
 DATABASES = {
@@ -10,3 +11,10 @@ DATABASES = {
         'PORT': os.environ['DB_PORT']
     }
 }
+
+LOGGING['handlers']['console'] = {'level': 'DEBUG', 'class': 'logging.StreamHandler', 'stream': sys.stdout,
+                                  'formatter': 'verbose'}
+LOGGING['loggers']['django']['handlers'] = ['console']
+LOGGING['loggers']['django']['level'] = 'DEBUG'
+LOGGING['loggers']['dev']['handlers'] = ['console']
+LOGGING['loggers']['dev']['level'] = 'DEBUG'

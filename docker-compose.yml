@@ -1,0 +1,47 @@
+version: '2'
+
+services:
+  proxy:
+    build: './nginx_docker/.'
+    image: 'vshevchenko/proxy.hh'
+    links:
+      - backend
+    ports:
+      - 80:80
+    depends_on:
+      - backend
+    volumes:
+      - 'static:/static'
+    command: 'nginx -g "daemon off;"'
+    logging:
+      driver: 'journald'
+    restart: always
+
+  backend:
+    build: './src/.'
+    image: 'vshevchenko/backend.hh'
+    depends_on:
+      - postgres
+    env_file: './src/.env'
+    environment:
+      - DJANGO_SETTINGS_MODULE=horns_hooves.settings.docker
+    ports:
+      - '127.0.0.1:8000:8000'
+    command: 'gunicorn horns_hooves.wsgi:application -w 2 -b :8000 --error-logfile=- --log-level=debug'
+    volumes:
+      - 'static:/django_backend/horns_hooves/static'
+    logging:
+      driver: 'journald'
+    restart: always
+
+  postgres:
+    image: 'postgres:9.6'
+    env_file: './src/.env'
+    ports:
+      - '127.0.0.1:5432:5432'
+    volumes:
+      - 'pgdata:/var/lib/postgresql/data/'
+
+volumes:
+  static:
+  pgdata:

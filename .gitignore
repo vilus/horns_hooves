@@ -5,7 +5,7 @@ db.sqlite3
 src/static
 *.log
 src/horns_hooves/static/
-.env
+.env_prod
 *.swp
 *.retry
 deploy/db_volume/
