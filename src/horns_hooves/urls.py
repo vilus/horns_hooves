@@ -22,7 +22,7 @@ from django.contrib.flatpages.views import flatpage
 from page.models import Category
 
 
-urlpatterns = []
+urlpatterns = static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
     import debug_toolbar
@@ -36,4 +36,4 @@ urlpatterns += [
     url(r'^', include('page.urls')),
     url(r'^comments/', include('django_comments.urls')),
     url(r'^(?P<url>.*/)$', flatpage),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
