@@ -34,6 +34,21 @@ def categories_del(_, pk, format=None):
     return Response(status=status.HTTP_204_NO_CONTENT)
 
 
+@api_view(['POST'])
+def categories_update(request, pk, format=None):
+    # TODO: extract duplicate code
+    try:
+        category = Category.objects.get(pk=pk)
+    except Category.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    # TODO: for partial update has method PATCH, but it's convenient, need to think
+    serializer = CategorySerializer(category, data=request.data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 @api_view(['GET'])
 def goods_list(_, format=None):
     goods = Good.objects.all()
