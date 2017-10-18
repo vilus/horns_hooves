@@ -13,7 +13,8 @@ services:
            python manage.py runserver 0.0.0.0:8000 -v2
     user: '0'
     volumes:
-      - './src:/django_backend/:rw'
+      - './src:/django_backend/'
+
 
   postgres:
     # TODO: need to prepare fixtures for postgres

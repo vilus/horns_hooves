@@ -178,39 +178,46 @@ LOGGING = {
         'verbose': {'format': '[%(levelname)s %(asctime)s %(filename)s:%(lineno)s %(name)s] %(message)s'},
     },
     'handlers': {
-        'dev': {
+        'console': {
             'level': 'DEBUG',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'maxBytes': 1024*1024*10,
-            'backupCount': 10,
-            'filename': os.path.join(BASE_DIR, 'dev.log'),
-            'formatter': 'verbose',
-        },
-        'dj': {
-            'level': 'DEBUG',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'maxBytes': 1024*1024*10,
-            'backupCount': 10,
-            'filename': os.path.join(BASE_DIR, 'dj.log'),
-            'formatter': 'verbose',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose'
         },
     },
     'loggers': {
         'django': {
             'level': 'WARNING',
-            'handlers': ['dj'],
+            'handlers': ['console'],
             'propogate': False,
         },
         'dev': {
             'level': 'WARNING',
-            'handlers': ['dev'],
+            'handlers': ['console'],
             'propogate': False,
         },
     },
 }
+
+logging_fhandlers = {
+    'dev': {
+        'level': 'DEBUG',
+        'class': 'logging.handlers.RotatingFileHandler',
+        'maxBytes': 1024*1024*10,
+        'backupCount': 10,
+        'filename': os.path.join(BASE_DIR, 'dev.log'),
+        'formatter': 'verbose',
+    },
+    'dj': {
+        'level': 'DEBUG',
+        'class': 'logging.handlers.RotatingFileHandler',
+        'maxBytes': 1024*1024*10,
+        'backupCount': 10,
+        'filename': os.path.join(BASE_DIR, 'dj.log'),
+        'formatter': 'verbose',
+    },
+}
+
 if DEBUG:
-    LOGGING['handlers']['console'] = {'level': 'DEBUG', 'class': 'logging.StreamHandler'}
-    LOGGING['loggers']['django']['handlers'].append('console')
     LOGGING['loggers']['django']['level'] = 'INFO'
     LOGGING['loggers']['dev']['level'] = 'DEBUG'
 
