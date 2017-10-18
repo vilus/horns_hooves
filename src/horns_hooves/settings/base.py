@@ -37,7 +37,9 @@ INSTALLED_APPS = [
     'django_comments',
     'easy_thumbnails',
     'taggit',
+    'rest_framework',
     'page',
+    'api.apps.ApiConfig',
 ]
 
 MIDDLEWARE = [

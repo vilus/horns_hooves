@@ -35,5 +35,6 @@ urlpatterns += [
     url(r'^logout/', auth_views.logout, name='logout'),
     url(r'^', include('page.urls')),
     url(r'^comments/', include('django_comments.urls')),
+    url(r'^api/v0/', include('api.urls')),
     url(r'^(?P<url>.*/)$', flatpage),
 ]
