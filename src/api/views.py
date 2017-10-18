@@ -50,6 +50,17 @@ def categories_update(request, pk, format=None):
 
 
 @api_view(['GET'])
+def categories_detail(_, pk, format=None):
+    # TODO: extract duplicate code
+    try:
+        category = Category.objects.get(pk=pk)
+    except Category.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    serializer = CategorySerializer(category)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
 def goods_list(_, format=None):
     goods = Good.objects.all()
     serializer = GoodSerializer(goods, many=True)
