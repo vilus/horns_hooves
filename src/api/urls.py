@@ -6,6 +6,7 @@ import api.views as controllers
 urlpatterns = [
     url(r'^categories/$', controllers.categories_list),
     url(r'^categories/add/$', controllers.categories_add),
+    url(r'^categories/(?P<pk>\d+)/delete/$', controllers.categories_del),
     url(r'^goods/$', controllers.goods_list),
 ]
 
