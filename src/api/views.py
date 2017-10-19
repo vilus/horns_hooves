@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -26,22 +27,15 @@ def categories_add(request, format=None):
 
 @api_view(['POST'])
 def categories_del(_, pk, format=None):
-    try:
-        category = Category.objects.get(pk=pk)
-    except Category.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+    category = get_object_or_404(Category, pk=pk)
     category.delete()
     return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 @api_view(['POST'])
 def categories_update(request, pk, format=None):
-    # TODO: extract duplicate code
-    try:
-        category = Category.objects.get(pk=pk)
-    except Category.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-    # TODO: for partial update has method PATCH, but it's convenient, need to think
+    category = get_object_or_404(Category, pk=pk)
+    # TODO: for partial update has method PATCH, but it's not convenient, need to think
     serializer = CategorySerializer(category, data=request.data, partial=True)
     if serializer.is_valid():
         serializer.save()
@@ -51,11 +45,7 @@ def categories_update(request, pk, format=None):
 
 @api_view(['GET'])
 def categories_detail(_, pk, format=None):
-    # TODO: extract duplicate code
-    try:
-        category = Category.objects.get(pk=pk)
-    except Category.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+    category = get_object_or_404(Category, pk=pk)
     serializer = CategorySerializer(category)
     return Response(serializer.data)
 
