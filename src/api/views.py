@@ -1,53 +1,41 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.shortcuts import get_object_or_404
-from rest_framework import status
+from rest_framework import generics, mixins
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from page.models import Category, Good
 from api.serializers import CategorySerializer, GoodSerializer
 
 
-@api_view(['GET'])
-def categories_list(_, format=None):
-    categories = Category.objects.all()
-    serializer = CategorySerializer(categories, many=True)
-    return Response(serializer.data)
+class CategotyAPIView(generics.GenericAPIView):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
 
 
-@api_view(['POST'])
-def categories_add(request, format=None):
-    serializer = CategorySerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class CategoryList(mixins.ListModelMixin, CategotyAPIView):
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
 
 
-@api_view(['POST'])
-def categories_del(_, pk, format=None):
-    category = get_object_or_404(Category, pk=pk)
-    category.delete()
-    return Response(status=status.HTTP_204_NO_CONTENT)
+class CategoryAdd(mixins.CreateModelMixin, CategotyAPIView):
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
 
-@api_view(['POST'])
-def categories_update(request, pk, format=None):
-    category = get_object_or_404(Category, pk=pk)
-    # TODO: for partial update has method PATCH, but it's not convenient, need to think
-    serializer = CategorySerializer(category, data=request.data, partial=True)
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class CategoryDel(mixins.DestroyModelMixin, CategotyAPIView):
+    def post(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
 
 
-@api_view(['GET'])
-def categories_detail(_, pk, format=None):
-    category = get_object_or_404(Category, pk=pk)
-    serializer = CategorySerializer(category)
-    return Response(serializer.data)
+class CategoryUpdate(mixins.UpdateModelMixin, CategotyAPIView):
+    def post(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
+
+
+class CategoryDetail(mixins.RetrieveModelMixin, CategotyAPIView):
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
 
 
 @api_view(['GET'])
