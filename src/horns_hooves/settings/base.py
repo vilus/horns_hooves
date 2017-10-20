@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'easy_thumbnails',
     'taggit',
     'rest_framework',
+    'rest_framework.authtoken',
     'page',
     'api.apps.ApiConfig',
 ]
@@ -212,3 +213,12 @@ if DEBUG:
     LOGGING['loggers']['django']['handlers'].append('console')
     LOGGING['loggers']['django']['level'] = 'INFO'
     LOGGING['loggers']['dev']['level'] = 'DEBUG'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+    ),
+}

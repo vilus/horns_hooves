@@ -19,6 +19,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.auth import views as auth_views
 from django.contrib.flatpages.views import flatpage
+from rest_framework.authtoken.views import obtain_auth_token
 from page.models import Category
 
 
@@ -36,5 +37,6 @@ urlpatterns += [
     url(r'^', include('page.urls')),
     url(r'^comments/', include('django_comments.urls')),
     url(r'^api/v0/', include('api.urls')),
+    url(r'^api_token_auth/', obtain_auth_token),
     url(r'^(?P<url>.*/)$', flatpage),
 ]
