@@ -2,8 +2,6 @@
 from __future__ import unicode_literals
 
 from rest_framework import generics, mixins
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
 from page.models import Category, Good
 from api.serializers import CategorySerializer, GoodSerializer
 
@@ -38,8 +36,31 @@ class CategoryDetail(mixins.RetrieveModelMixin, CategotyAPIView):
         return self.retrieve(request, *args, **kwargs)
 
 
-@api_view(['GET'])
-def goods_list(_, format=None):
-    goods = Good.objects.all()
-    serializer = GoodSerializer(goods, many=True)
-    return Response(serializer.data)
+class GoodAPIView(generics.GenericAPIView):
+    queryset = Good.objects.all()
+    serializer_class = GoodSerializer
+
+
+class GoodList(mixins.ListModelMixin, GoodAPIView):
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+
+class GoodDetail(mixins.RetrieveModelMixin, GoodAPIView):
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+
+class GoodAdd(mixins.CreateModelMixin, GoodAPIView):
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
+
+
+class GoodDel(mixins.DestroyModelMixin, GoodAPIView):
+    def post(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
+
+
+class GoodUpdate(mixins.UpdateModelMixin, GoodAPIView):
+    def post(self, request, *args, **kwargs):
+        return self.partial_update(request, *args, **kwargs)
