@@ -37,6 +37,6 @@ urlpatterns += [
     url(r'^', include('page.urls')),
     url(r'^comments/', include('django_comments.urls')),
     url(r'^api/v0/', include('api.urls')),
-    url(r'^api_token_auth/', obtain_auth_token),
+    url(r'^api_token_auth/', obtain_auth_token, name='obtain_auth_token'),
     url(r'^(?P<url>.*/)$', flatpage),
 ]
