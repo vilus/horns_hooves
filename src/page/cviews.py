@@ -34,11 +34,16 @@ class GoodEditView(ProcessFormView):
         self.success_url = self.success_url + '?page=' + pn
         return super(GoodEditView, self).post(request, *args, **kwargs)
 
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        instance.changed_by = self.request.user
+        return super(GoodEditView, self).form_valid(form)
+
 
 class GoodCreate(SuccessMessageMixin, CreateView, GoodEditMixin):
     model = Good
     template_name = 'page/page_good_add.html'
-    fields = '__all__'
+    fields = ('name', 'price', 'in_stock', 'category','description', 'thumbnail', 'tags')
     success_message = 'Товар успешно добавлен'
 
     def get(self, request, *args, **kwargs):
@@ -60,12 +65,17 @@ class GoodCreate(SuccessMessageMixin, CreateView, GoodEditMixin):
         context['category'] = Category.objects.get(pk=self.kwargs['cat_id'])
         return context
 
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        instance.changed_by = self.request.user
+        return super(GoodCreate, self).form_valid(form)
+
 
 class GoodUpdate(SuccessMessageMixin, UpdateView, GoodEditMixin, GoodEditView):
     model = Good
     template_name = 'page/page_good_edit.html'
     pk_url_kwarg = 'good_id'
-    fields = '__all__'
+    fields = ('name', 'price', 'in_stock', 'category', 'description', 'thumbnail', 'tags')
     success_message = 'Товар успешно изменен'
 
     def post(self, request, *args, **kwargs):
