@@ -10,6 +10,9 @@ from page.models import Category, Good
 from api.serializers import GoodSerializer
 
 
+ROOT_ID = 1
+
+
 class ApiAuthTestCase(APITestCase):
     fixtures = ['api_test_data.json']
 
@@ -70,7 +73,8 @@ class ApiCategoriesTestCase(APITestCase):
         detail_url = reverse('category_detail', kwargs={'pk': self.cat.id})
         res = self.client.get(detail_url)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
-        self.assertEqual(res.data, {'name': self.cat.name, 'description': self.cat.description, 'id': self.cat.id})
+        excp_cat = {'name': self.cat.name, 'description': self.cat.description, 'id': self.cat.id, 'changed_by': None}
+        self.assertEqual(res.data, excp_cat)
 
     def test_categories_add(self):
         add_url = reverse('category_add')
@@ -79,6 +83,7 @@ class ApiCategoriesTestCase(APITestCase):
         self.assertEqual(add_res.status_code, status.HTTP_201_CREATED)
 
         new_cat['id'] = add_res.data['id']
+        new_cat['changed_by'] = ROOT_ID
         detail_url = reverse('category_detail', kwargs={'pk': new_cat['id']})
         new_cat_res = self.client.get(detail_url)
         self.assertEqual(new_cat_res.data, new_cat)
@@ -101,7 +106,8 @@ class ApiCategoriesTestCase(APITestCase):
 
         detail_url = reverse('category_detail', kwargs={'pk': self.cat.id})
         detail_res = self.client.get(detail_url)
-        self.assertEqual(detail_res.data, {'id': self.cat.id, 'name': self.cat.name, 'description': new_desc})
+        excp_cat = {'id': self.cat.id, 'name': self.cat.name, 'description': new_desc, 'changed_by': ROOT_ID}
+        self.assertEqual(detail_res.data, excp_cat)
 
 
 class ApiGoodsTestCase(APITestCase):
@@ -133,7 +139,7 @@ class ApiGoodsTestCase(APITestCase):
 
     def test_goods_add(self):
         add_url = reverse('good_add')
-        new_good = {'name': 'from_test_good_add', 'category': self.cat.id}
+        new_good = {'name': 'from_test_good_add', 'category': self.cat.id, 'changed_by': ROOT_ID}
         res = self.client.post(add_url, new_good, format='json')
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
 
@@ -157,6 +163,7 @@ class ApiGoodsTestCase(APITestCase):
         new_desc = 'test update'
         exp_good = dict((i.name, i.value) for i in GoodSerializer(self.good))
         exp_good['description'] = new_desc
+        exp_good['changed_by'] = ROOT_ID
         res = self.client.post(update_url, {'description': new_desc}, format='json')
         self.assertEqual(res.status_code, status.HTTP_200_OK)
 
