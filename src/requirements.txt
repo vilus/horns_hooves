@@ -7,3 +7,4 @@ django-taggit
 gunicorn==19.7.1
 psycopg2==2.7
 djangorestframework
+django-simple-history
