@@ -1,11 +1,21 @@
 version: '2'
 
 services:
+  crossbar:
+    build: './crossbar/.'
+    image: 'vshevchenko/crossbar.hh'
+    ports:
+      - '127.0.0.1:8081:8081'
+    logging:
+      driver: 'journald'
+    restart: always
+
   proxy:
     build: './nginx_docker/.'
     image: 'vshevchenko/proxy.hh'
     links:
       - backend
+      - crossbar
     ports:
       - 80:80
     depends_on:
@@ -23,8 +33,11 @@ services:
     depends_on:
       - postgres
     env_file: './src/.env'
+    links:
+      - crossbar
     environment:
       - DJANGO_SETTINGS_MODULE=horns_hooves.settings.docker
+      - CROSSBAR_URL=http://crossbar:8081/notify
     ports:
       - '127.0.0.1:8000:8000'
     command: 'gunicorn horns_hooves.wsgi:application -w 2 -b :8000 --error-logfile=- --log-level=debug'
