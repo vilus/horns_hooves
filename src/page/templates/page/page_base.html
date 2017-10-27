@@ -48,5 +48,18 @@
     <div id="footer">
         <p>Все права принадлежат народу</p>
     </div>
+
+    <script src="{% static "autobahn.min.js" %}"></script>
+    <script>
+        <!--It's mock for testing, in future will be replaced-->
+        var connection = new autobahn.Connection({url: 'ws://' + location.host + '/ws', realm: 'backend'});
+        connection.onopen = function (session){
+            function onevent(args){
+                console.log("Message: ", args[0]);
+            }
+            session.subscribe('activity_stream', onevent);
+        }
+        connection.open();
+    </script>
 </body>
 </html>
