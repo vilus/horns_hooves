@@ -34,11 +34,6 @@ class GoodEditView(ProcessFormView):
         self.success_url = self.success_url + '?page=' + pn
         return super(GoodEditView, self).post(request, *args, **kwargs)
 
-    def form_valid(self, form):
-        instance = form.save(commit=False)
-        instance.changed_by = self.request.user
-        return super(GoodEditView, self).form_valid(form)
-
 
 class GoodCreate(SuccessMessageMixin, CreateView, GoodEditMixin):
     model = Good
@@ -83,6 +78,11 @@ class GoodUpdate(SuccessMessageMixin, UpdateView, GoodEditMixin, GoodEditView):
         self.success_url = reverse('page_index', kwargs={'cat_id': cat_id})
         return super(GoodUpdate, self).post(request, *args, **kwargs)
 
+    def form_valid(self, form):
+        instance = form.save(commit=False)
+        instance.changed_by = self.request.user
+        return super(GoodUpdate, self).form_valid(form)
+
 
 class GoodDelete(DeleteView, GoodEditMixin, GoodEditView):
     model = Good
@@ -94,6 +94,9 @@ class GoodDelete(DeleteView, GoodEditMixin, GoodEditView):
         # TODO: seems like *View already reraise DoesNotExists to Http404
         cat_id = Good.objects.get(pk=kwargs['good_id']).category.id
         self.success_url = reverse('page_index', kwargs={'cat_id': cat_id})
+        instance = self.get_object()
+        instance.changed_by = self.request.user
+        instance.save()  # without save, in post_delete instance has previous value
         return super(GoodDelete, self).post(request, *args, **kwargs)
 
 
