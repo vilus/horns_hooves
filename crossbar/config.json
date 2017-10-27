@@ -1,0 +1,27 @@
+{
+    "version": 2,
+    "workers": [
+        {
+            "type": "router",
+            "realms": [{
+                "name": "backend",
+                "roles": [{
+                    "name": "anonymous",
+                    "permissions": [{
+                        "uri": "*",
+                        "allow": {"call": true, "register": true, "publish": true, "subscribe": true},
+                        "cache": true
+                    }]
+                }]
+            }],
+            "transports": [{
+                "type": "web",
+                "endpoint": {"type": "tcp", "port": 8081},
+                "paths": {
+                    "ws": {"type": "websocket", "debug": true},
+                    "notify": {"type": "publisher", "realm": "backend", "role": "anonymous"}
+                }
+            }]
+        }
+    ]
+}
