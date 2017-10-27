@@ -7,4 +7,5 @@ do
   sleep 2
 done
 python manage.py collectstatic --noinput
+python manage.py populate_history --auto
 exec "$@"
