@@ -232,3 +232,9 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
     ),
 }
+
+CROSSBAR = {
+    'url': os.getenv('CROSSBAR_URL', 'http://127.0.0.1:8081/notify'),
+    'topic': 'activity_stream',
+    'timeout': 1,
+}
