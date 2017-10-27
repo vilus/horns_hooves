@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 import logging
+
 from django.db import models
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from django.core.validators import MinValueValidator
 from taggit.managers import TaggableManager
 from simple_history.models import HistoricalRecords
+from common.utils import send_msg_to_broker
 
 logger = logging.getLogger('dev.'+__name__)
 
@@ -79,20 +81,34 @@ class BlogArticle(models.Model):
 def log_save_history(sender, instance, created, **_):
     username = instance.changed_by.username if instance.changed_by else 'undefined'
     if created:
-        logger.debug('<{0}>: "{1}" - was created by "{2}"'.format(sender.__name__, instance.name, username))
+        msg = '<{0}>: "{1}" - was created by "{2}"'.format(sender.__name__, instance.name, username)
+        logger.debug(msg)
+        send_msg_to_broker(msg)
         return
 
-    hist = instance.history.order_by('-history_date')[1]
+    hist_count = instance.history.count()
+    if hist_count == 1:
+        hist = instance.history.first()
+    elif hist_count > 1:
+        hist = instance.history.order_by('-history_date')[1]
+    else:
+        # something went wrong
+        return
+
     model_fields = set(f.name for f in instance._meta.get_fields())
     hist_fields = set(f.name for f in hist._meta.get_fields())
     model_fields = model_fields & hist_fields
     diff_fields = ['field "{0}" from "{1}" to "{2}"'.format(field, getattr(hist, field), getattr(instance, field))
                    for field in model_fields if getattr(instance, field) != getattr(hist, field)]
-    logger.debug('<{0}>: "{1}" was changed by "{2}": {3}'.format(sender.__name__, instance.name, username, diff_fields))
+    msg = '<{0}>: "{1}" was changed by "{2}": {3}'.format(sender.__name__, instance.name, username, diff_fields)
+    logger.debug(msg)
+    send_msg_to_broker(msg)
 
 
 @receiver(post_delete, sender=Good, dispatch_uid='history-del-logger')
 @receiver(post_delete, sender=Category, dispatch_uid='history-del-logger')
 def log_del_history(sender, instance, **_):
     username = instance.changed_by.username if instance.changed_by else 'undefined'
-    logger.debug('<{0}>: "{1}" - was deleted by "{2}"'.format(sender.__name__, instance.name, username))
+    msg = '<{0}>: "{1}" - was deleted by "{2}"'.format(sender.__name__, instance.name, username)
+    logger.debug(msg)
+    send_msg_to_broker(msg)
